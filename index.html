@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adega Bordô | Vinhos Finos</title>
+  <meta name="description" content="Adega Bordô: seleção de vinhos finos nacionais e importados com entrega para todo o Brasil.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ============ HEADER: logo, navegação e botão do carrinho ============ -->
+  <header class="header" id="topo">
+    <div class="container header__inner">
+      <a href="#topo" class="logo" aria-label="Adega Bordô - início">
+        <span class="logo__mark">AB</span>
+        <span class="logo__text">Adega <strong>Bordô</strong></span>
+      </a>
+
+      <nav class="nav" aria-label="Navegação principal">
+        <a href="#vitrine">Vinhos</a>
+        <a href="#beneficios">Por que nós</a>
+        <a href="#contato">Contato</a>
+      </nav>
+
+      <button class="cart-btn" id="cartOpen" aria-label="Abrir carrinho" aria-controls="cartDrawer" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h15l-1.5 9h-12L6 6Zm0 0L5 3H2m6 17a1 1 0 1 0 0 .01M18 20a1 1 0 1 0 0 .01" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Carrinho</span>
+        <span class="cart-btn__badge" id="cartCount" aria-live="polite">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ HERO: proposta de valor + CTA ============ -->
+    <section class="hero">
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <p class="eyebrow">Curadoria de sommeliers</p>
+          <h1>Grandes rótulos para<br><em>momentos memoráveis</em></h1>
+          <p class="hero__lead">50 vinhos selecionados do Brasil, Argentina, Chile, Uruguai e Portugal. Do dia a dia aos grandes reservas, com frete grátis acima de R$ 299.</p>
+          <div class="hero__actions">
+            <a href="#vitrine" class="btn btn--gold">Explorar a adega</a>
+            <a href="#beneficios" class="btn btn--ghost">Conheça a loja</a>
+          </div>
+          <ul class="hero__stats">
+            <li><strong>50</strong><span>rótulos</span></li>
+            <li><strong>5</strong><span>países</span></li>
+            <li><strong>4,9★</strong><span>avaliação</span></li>
+          </ul>
+        </div>
+        <div class="hero__art" aria-hidden="true" id="heroArt"></div>
+      </div>
+    </section>
+
+    <!-- ============ BENEFÍCIOS ============ -->
+    <section class="benefits" id="beneficios">
+      <div class="container benefits__grid">
+        <article class="benefit">
+          <span class="benefit__icon">🚚</span>
+          <h3>Frete grátis</h3>
+          <p>Em compras acima de R$ 299 para todo o Brasil.</p>
+        </article>
+        <article class="benefit">
+          <span class="benefit__icon">🌡️</span>
+          <h3>Armazenamento ideal</h3>
+          <p>Adega climatizada a 14 °C e embalagem térmica.</p>
+        </article>
+        <article class="benefit">
+          <span class="benefit__icon">🍷</span>
+          <h3>Curadoria especializada</h3>
+          <p>Cada rótulo é provado e aprovado por sommeliers.</p>
+        </article>
+        <article class="benefit">
+          <span class="benefit__icon">🔒</span>
+          <h3>Compra segura</h3>
+          <p>Pagamento protegido e troca garantida em 7 dias.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ VITRINE: filtros + grid renderizado via JS ============ -->
+    <section class="shop" id="vitrine">
+      <div class="container">
+        <header class="section-head">
+          <p class="eyebrow">Nossa adega</p>
+          <h2>Escolha o seu vinho</h2>
+        </header>
+
+        <div class="toolbar">
+          <div class="filters" role="tablist" aria-label="Filtrar por tipo" id="filters">
+            <button class="chip is-active" data-type="todos" role="tab" aria-selected="true">Todos</button>
+            <button class="chip" data-type="tinto" role="tab" aria-selected="false">Tintos</button>
+            <button class="chip" data-type="rose" role="tab" aria-selected="false">Rosés</button>
+            <button class="chip" data-type="branco" role="tab" aria-selected="false">Brancos</button>
+            <button class="chip" data-type="espumante" role="tab" aria-selected="false">Espumantes</button>
+          </div>
+          <div class="toolbar__right">
+            <label class="search">
+              <span class="sr-only">Buscar vinho</span>
+              <input type="search" id="search" placeholder="Buscar por nome ou uva…" autocomplete="off">
+            </label>
+            <label class="sort">
+              <span class="sr-only">Ordenar</span>
+              <select id="sort">
+                <option value="destaque">Destaques</option>
+                <option value="menor">Menor preço</option>
+                <option value="maior">Maior preço</option>
+                <option value="safra">Safra mais antiga</option>
+                <option value="nome">Nome (A–Z)</option>
+                <option value="adega">Nota da crítica (ADEGA)</option>
+                <option value="vivino">Nota dos consumidores (Vivino)</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <p class="results" id="results" aria-live="polite"></p>
+
+        <!-- Legenda das avaliações: três critérios diferentes, que não se misturam -->
+        <ul class="legend">
+          <li><span class="badge badge--adega"><strong>90</strong> pts <span>ADEGA</span></span> Crítica especializada (escala 100), só quando a safra avaliada é a mesma à venda.</li>
+          <li><span class="badge badge--stars"><span class="stars" style="--rating:4" aria-hidden="true">★★★★★</span> <strong>4,0</strong></span> Média de consumidores no Vivino (1 a 5). "geral" = média de todas as safras do rótulo.</li>
+          <li><span class="legend__sensory">Perfil sensorial</span> Corpo, acidez, taninos e aromas do estilo. É descrição, não nota.</li>
+        </ul>
+        <div class="categories" id="productGrid"><!-- seções por categoria renderizadas via JS --></div>
+      </div>
+    </section>
+
+    <!-- ============ NEWSLETTER / CTA ============ -->
+    <section class="cta">
+      <div class="container cta__inner">
+        <div>
+          <h2>Ganhe 10% na primeira compra</h2>
+          <p>Receba lançamentos, harmonizações e ofertas exclusivas.</p>
+        </div>
+        <form class="cta__form" id="newsletter">
+          <label class="sr-only" for="newsEmail">Seu e-mail</label>
+          <input type="email" id="newsEmail" placeholder="seu@email.com" required>
+          <button type="submit" class="btn btn--gold">Quero desconto</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer" id="contato">
+    <div class="container footer__grid">
+      <div>
+        <a href="#topo" class="logo logo--light">
+          <span class="logo__mark">AB</span>
+          <span class="logo__text">Adega <strong>Bordô</strong></span>
+        </a>
+        <p class="footer__about">Vinhos finos com curadoria e entrega cuidadosa desde 2026.</p>
+      </div>
+      <div>
+        <h4>Loja</h4>
+        <ul><li><a href="#vitrine">Tintos</a></li><li><a href="#vitrine">Brancos</a></li><li><a href="#vitrine">Espumantes</a></li></ul>
+      </div>
+      <div>
+        <h4>Atendimento</h4>
+        <ul><li>contato@adegabordo.com.br</li><li>(11) 4000-0000</li><li>Seg a sex, 9h às 18h</li></ul>
+      </div>
+    </div>
+    <p class="footer__legal container">Venda proibida para menores de 18 anos. Aprecie com moderação. © 2026 Adega Bordô — projeto acadêmico. Fotos dos produtos pertencem aos respectivos produtores e lojas (fontes em img/fontes.json). Notas da crítica: Revista ADEGA; avaliações de consumidores: Vivino (consultadas em out/2026).</p>
+  </footer>
+
+  <!-- ============ CARRINHO (drawer lateral) ============ -->
+  <div class="overlay" id="overlay" hidden></div>
+  <aside class="drawer" id="cartDrawer" aria-label="Carrinho de compras" aria-hidden="true">
+    <header class="drawer__head">
+      <h2>Seu carrinho</h2>
+      <button class="icon-btn" id="cartClose" aria-label="Fechar carrinho">✕</button>
+    </header>
+
+    <div class="drawer__body" id="cartItems"><!-- itens renderizados via JS --></div>
+
+    <footer class="drawer__foot" id="cartFoot">
+      <div class="shipping" id="shippingBar"></div>
+      <dl class="totals">
+        <div><dt>Subtotal</dt><dd id="subtotal">R$ 0,00</dd></div>
+        <div><dt>Frete</dt><dd id="shipping">—</dd></div>
+        <div class="totals__grand"><dt>Total</dt><dd id="total">R$ 0,00</dd></div>
+      </dl>
+      <button class="btn btn--gold btn--block" id="checkoutBtn">Finalizar compra</button>
+      <button class="btn btn--link" id="clearCart">Esvaziar carrinho</button>
+    </footer>
+  </aside>
+
+  <!-- ============ MODAL DE CONCLUSÃO DA COMPRA ============ -->
+  <div class="modal" id="checkoutModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <div class="modal__box">
+      <div class="modal__check" aria-hidden="true">✓</div>
+      <h2 id="modalTitle">Pedido confirmado!</h2>
+      <p>Obrigado pela sua compra. Seu pedido foi registrado com o número:</p>
+      <p class="modal__order" id="orderNumber"></p>
+      <div class="modal__summary" id="orderSummary"></div>
+      <button class="btn btn--gold btn--block" id="modalClose">Continuar comprando</button>
+    </div>
+  </div>
+
+  <!-- Toast de feedback -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
